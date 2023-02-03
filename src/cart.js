@@ -30,15 +30,16 @@ let calculation = () => {
             // console.log(x);
             let {id, item} = x;
             let search = shopItemsData.find((y) =>y.id === id) || []; 
+            let {img, name, price} = search;
             return `                        
                 <div class="cart-item">
-                <img width="100" src=${search.img} alt=""/>
+                <img width="100" src=${img} alt=""/>
                 <div class="details">
 
                     <div class="title-price-x">
                         <h4 class="title-price">
-                        <p>${search.name}</p>
-                        <p class="cart-item-price">$ ${search.price}</p>
+                        <p>${name}</p>
+                        <p class="cart-item-price">$ ${price}</p>
                         </h4>
                         <i onclick="removeItem(${id})" class="bi bi-x-lg"></i>
                     </div>
@@ -144,7 +145,7 @@ let calculation = () => {
 
     generateCartItems();
     totalAmount();
-
+    calculation();
     localStorage.setItem("data", JSON.stringify(basket));
  };
 
@@ -152,6 +153,7 @@ let calculation = () => {
  let clearCart = () => {
     basket = [];
     generateCartItems();
+    calculation();
     localStorage.setItem("data", JSON.stringify(basket));
  }
 
