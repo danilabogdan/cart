@@ -131,7 +131,8 @@ let calculation = () => {
     let search = basket.find((x) =>x.id === id)
     // console.log(search.item);
     document.getElementById(id).innerHTML = search.item;
-    calculation()
+    calculation();
+    totalAmount();
  };
 
 
@@ -142,11 +143,34 @@ let calculation = () => {
     basket = basket.filter((x) => x.id !== selectedItem.id);
 
     generateCartItems();
+    totalAmount();
 
     localStorage.setItem("data", JSON.stringify(basket));
  };
 
 
- let totalAmount = () => {
-    
+ let clearCart = () => {
+    basket = [];
+    generateCartItems();
+    localStorage.setItem("data", JSON.stringify(basket));
  }
+
+
+ let totalAmount = () => {
+    if(basket.length !== 0) {
+        let amount = basket.map((x) => {
+            let {item, id} = x;
+            let search = shopItemsData.find((y) =>y.id === id) || [];
+            return item * search.price;
+        }).reduce((x, y) => x+y, 0)
+        // console.log(amount);
+        label.innerHTML = `
+        <h2>Total Bill : $ ${amount}</h2>
+        <button class="checkout">Checkout</button>
+        <button onclick="clearCart()" class="remove-all">Clear Cart</button>
+        `
+    } else return
+ }
+
+
+ totalAmount();
